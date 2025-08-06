@@ -2,14 +2,24 @@ const express  = require('express');
 
 const app = express()
 
-app.use("/greet",(req, res) => {
-    res.send("This message comes from server , Hello Browser")
+app.use("/user", (req, res) => {
+    res.send("I just execute")
 })
-app.use("/test", (req, res) => {
-    res.send("Now Your a Devloper")
+
+app.get("/user", (req, res) => {
+    res.send({firstName: "Murali", lastName: "Krishna"})
+})
+
+app.post("/user", (req, res) => {
+    // Store the data in the database
+    res.send("Data stored successfully")
+})
+
+app.get("/greet", (req, res) => {
+    res.send("Welcome to backend")
 })
 
 
-app.listen(3000, () => {
-    console.log("server is running on port 3000")
+app.listen(7777, () => {
+    console.log("server is running on port 7777")
 })
