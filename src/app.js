@@ -2,9 +2,16 @@ const express  = require('express');
 
 const app = express()
 
-app.use("/user", (req, res) => {
-    res.send("I just execute")
+app.get("/user/:userId", (req, res) => {
+    console.log(req.params)
+    res.send("hello browser thanks for sending userId using params")
 })
+
+app.get("/user", (req, res) => {
+    console.log(req.query.search)
+    res.send("hello browser thanks for sending search query using query parameter")
+})
+
 
 app.get("/user", (req, res) => {
     res.send({firstName: "Murali", lastName: "Krishna"})
