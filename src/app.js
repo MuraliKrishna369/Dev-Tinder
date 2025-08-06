@@ -2,29 +2,34 @@ const express  = require('express');
 
 const app = express()
 
-app.get("/user/:userId", (req, res) => {
-    console.log(req.params)
-    res.send("hello browser thanks for sending userId using params")
-})
+// multiple route handler
 
-app.get("/user", (req, res) => {
-    console.log(req.query.search)
-    res.send("hello browser thanks for sending search query using query parameter")
-})
-
-
-app.get("/user", (req, res) => {
-    res.send({firstName: "Murali", lastName: "Krishna"})
-})
-
-app.post("/user", (req, res) => {
-    // Store the data in the database
-    res.send("Data stored successfully")
-})
-
-app.get("/greet", (req, res) => {
-    res.send("Welcome to backend")
-})
+app.use("/user", 
+    // route handler
+   
+    (req, res, next) => { 
+        console.log("This is my 1st route handler")
+        next()
+        //res.send("response send successfully from route handler 1")
+    },
+    [
+    (req, res, next) => {
+        console.log("This is my second route handler")
+        //res.send("response from 2nd route handler")
+        next()
+    },
+    (req, res, next) => {
+        console.log("this is my third route handler")
+        //res.send("response from 3rd route handler")
+        next()
+    },
+    
+    (req, res) => {
+        console.log("this is my fouth route handler")
+        res.send("response from 4th route handler")
+    }
+    ]
+)
 
 
 app.listen(7777, () => {
