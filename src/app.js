@@ -1,35 +1,34 @@
 const express  = require('express');
+const { authAdmin, authUser } = require('./middlewares/auth');
 
 const app = express()
 
-// multiple route handler
+//finds mathing route = middleware chain => request handler
 
-app.use("/user", 
-    // route handler
-   
-    (req, res, next) => { 
-        console.log("This is my 1st route handler")
-        next()
-        //res.send("response send successfully from route handler 1")
-    },
-    [
-    (req, res, next) => {
-        console.log("This is my second route handler")
-        //res.send("response from 2nd route handler")
-        next()
-    },
-    (req, res, next) => {
-        console.log("this is my third route handler")
-        //res.send("response from 3rd route handler")
-        next()
-    },
+app.use("/admin", authAdmin)
+
+app.get("/admin/getUserData", (req, res) => {
+    // Logic fetch all user data from database
+    console.log("all user data fetched successfully")
+    res.send("Data sent")
     
-    (req, res) => {
-        console.log("this is my fouth route handler")
-        res.send("response from 4th route handler")
-    }
-    ]
-)
+})
+
+app.delete("/admin/deleteUser", (req, res) => {
+    console.log("delete the user successfully")
+    res.send("User Deleted") 
+})
+
+app.post("/user/signup", (req, res) => {
+    console.log("user created successfully")
+    res.send("User created")
+})
+app.get("/user/:userId", authUser, (req, res) => {
+    console.log("user data fetched successfully")
+    res.send("User data sent")
+})
+
+
 
 
 app.listen(7777, () => {
