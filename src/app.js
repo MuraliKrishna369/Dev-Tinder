@@ -1,36 +1,21 @@
 const express  = require('express');
-const { authAdmin, authUser } = require('./middlewares/auth');
-
 const app = express()
-
-//finds mathing route = middleware chain => request handler
-
-app.use("/admin", authAdmin)
-
-app.get("/admin/getUserData", (req, res) => {
-    // Logic fetch all user data from database
-    console.log("all user data fetched successfully")
-    res.send("Data sent")
-    
+console.log("3 rd line")
+app.listen(1234)
+console.log("4 th line")
+app.get("/", (req, res) => {
+    res.send("Hello world!")
+    console.log("8th line")
 })
-
-app.delete("/admin/deleteUser", (req, res) => {
-    console.log("delete the user successfully")
-    res.send("User Deleted") 
-})
-
-app.post("/user/signup", (req, res) => {
-    console.log("user created successfully")
-    res.send("User created")
-})
-app.get("/user/:userId", authUser, (req, res) => {
-    console.log("user data fetched successfully")
-    res.send("User data sent")
-})
+console.log("9th line")
 
 
-
-
-app.listen(7777, () => {
-    console.log("server is running on port 7777")
-})
+/**
+ * 8 th line is not executed why?
+ * our app object has super powers of express get, post , listen, etc..
+ * listen function calls directly
+ * but http methods are works like callback it only calls 
+ * when the specific routes path matches it executes the routes handler function
+ * whenever the http method executes it must send the response to the client
+ * otherwise the our response is hanging leads to server freez
+ */
