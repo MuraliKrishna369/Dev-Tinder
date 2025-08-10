@@ -9,11 +9,12 @@
   },
   "keywords": [
     "nodejs",
-    "javascript" 
+    "javascript"
   ],
   "author": "Murali Krishna",
   "license": "ISC",
   "dependencies": {
-    "express": "^5.1.0"  
+    "express": "^5.1.0",
+    "mongoose": "^8.17.1"
   }
 }

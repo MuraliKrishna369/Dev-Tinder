@@ -14,3 +14,7 @@ What i understand
 5. Why node_modules?
     - It's stores all the code of our dependencies and `transative dependencies
 6. How to create a server? => app.list(port_number)
+
+
+# Objectives
+1. create a server and initialize mongoose to perfrom crud operations
