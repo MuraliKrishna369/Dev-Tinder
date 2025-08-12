@@ -4,7 +4,7 @@ const User = require("./models/user");
 const app = express()
 app.use(express.json())
 
-
+// create user
 app.post("/signup", async (req, res) => {
     const user = new User(req.body)
     try{
@@ -12,11 +12,11 @@ app.post("/signup", async (req, res) => {
         res.send("User created")
     }
     catch(err){
-        res.status(400).send("User creation failed ", err)
+        res.status(400).send("User creation failed :" + err)
     }
 })
 
-// find one user in the feed based on their name or email or age or gender
+// find user using their first name
 app.post("/profile", async (req, res) => {  
     try{
 
