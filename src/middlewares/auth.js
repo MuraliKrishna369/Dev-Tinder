@@ -1,32 +1,28 @@
-const authAdmin  = (req, res, next) => {
-    console.log("passing through middleware")
-    // athorize admin
-    const token = "xyz" // admin will sent the token or password
-    // you will check whether it is valid or not through db
-    const isAdminAuthrized = "xyz" === token
-    if (!isAdminAuthrized){
-        res.status(401).send("Admin unathorized")
-        
-    }
-    else{
+const jwt = require("jsonwebtoken")
+const User = require("../models/user")
+
+const userAuth = async (req, res, next) => {
+    try{
+        const cookie = req.cookies
+        const {token} = cookie
+        if(!token){
+            throw new Error("Token is invalid!!!")
+        }
+        const decodedObj = await jwt.verify(token, process.env.JWT_SECRET_KEY)
+        const {_id} = decodedObj
+        const user = await User.findById(_id)
+        if (!user){
+            throw new Error("User not found")
+        }
+        req.user = user
         next()
+
     }
-}
-const authUser  = (req, res, next) => {
-    console.log("passing through middleware")
-    // athorize admin
-    const token = "xyz" // admin will sent the token or password
-    // you will check whether it is valid or not through db
-    const isUserAuthrized = "xyz" === token
-    if (!isUserAuthrized){
-        res.status(401).send("User unathorized")
-        
+    catch(err){
+        res.status(400).send("ERROR : "+ err.message)
     }
-    else{
-        next()
-    }
+    
+    
+
 }
-module.exports = {
-    authAdmin,
-    authUser
-}
+module.exports = {userAuth}
