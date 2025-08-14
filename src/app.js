@@ -33,9 +33,9 @@ app.post("/login",  async (req, res) => {
         if (!user){
             throw new Error("Invalid creadintials")
         }
-        const isPasswordValid = await bcrypt.compare(password, user.password)
+        const isPasswordValid = await user.validatePassword(password)
         if (isPasswordValid){
-            const token = await jwt.sign({_id: user._id}, process.env.JWT_SECRET_KEY, {expiresIn: "7d"})
+            const token = await user.getJWT()
             res.cookie("token", token)
             res.send("Login successful")
         }
