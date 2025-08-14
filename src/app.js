@@ -1,22 +1,45 @@
 const express = require("express");
 const connectDB  = require("./config/database");
 const User = require("./models/user");
+const {validateSignUpData} = require("./utils/validation");
+const bcrypt = require("bcrypt")
 const app = express()
 app.use(express.json())
 
-// create user
+
 app.post("/signup", async (req, res) => {
-    const user = new User(req.body)
+    // create a instance of user using user model
+    const {firstName, lastName, emailId, password} = req.body
     try{
+        validateSignUpData(req)
+        const passwordHash = await bcrypt.hash(password, 10)
+        const user = new User({firstName, lastName, emailId, password: passwordHash})
         await user.save()
-        res.send("User created")
+        res.send("User created successfully")
     }
     catch(err){
-        res.status(400).send("User creation failed :" + err)
+        res.status(400).send("ERROR : " + err.message)
     }
 })
 
-// find user using their first name
+app.post("/login", async (req, res) => {
+    const {emailId, password} = req.body
+    try{
+        const user = await User.findOne({emailId: emailId})
+        if (!user){
+            throw new Error("Invalid creadintials")
+        }
+        const isPasswordValid = await bcrypt.compare(password, user.password)
+        if (!isPasswordValid){
+            throw new Error("Invalid creadintials")
+        }
+        res.send("Login successful")
+    }
+    catch(err){
+        res.status(400).send("ERROR : " + err.message)
+    }
+})
+
 app.post("/profile", async (req, res) => {  
     try{
 
@@ -33,7 +56,7 @@ app.post("/profile", async (req, res) => {
         res.status(400).send("Profile not found")
     }
 })
-// Feed API 
+
 app.get("/feed", async (req, res) => {  
     try{
         const users = await User.find({})
@@ -51,7 +74,6 @@ app.get("/feed", async (req, res) => {
 
 })
 
-// Delete a user
 app.delete("/user", async (req, res) => {
     const userId = req.body.userId
     try{
@@ -63,7 +85,6 @@ app.delete("/user", async (req, res) => {
     }
 })
 
-// Updata the user
 app.patch("/user/:userId", async (req, res) => {
     const userId = req.params.userId
     const data = req.body

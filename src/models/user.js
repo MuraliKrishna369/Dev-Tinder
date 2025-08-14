@@ -7,19 +7,17 @@ const userSchema = new mongoose.Schema({
     emailId: {type: String, required: true, unique: true, lowercase: true,
         validate (value){
             if (!validator.isEmail(value)){
-                throw new Error("Invalid Email Address", + value)
+                throw new Error("Invalid Email Address " + value)
             }
         }
 
     },
     password: {type: String, required: true, unique: true},
     age: {type: Number, min: 18},
-    gender: {type: String, validate: {
-        validator: function(v){
+    gender: {type: String, validate(v) { 
             if (!["male", "female", "other"].includes(v)){
                 throw new Error("Gender data is invalid")
-            }
-        }
+            }   
     }},
     skills: {type: [String], default: "javascript"}
 }, {timestamps: true})
