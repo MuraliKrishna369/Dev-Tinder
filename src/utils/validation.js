@@ -1,4 +1,5 @@
 const bcrypt = require("bcrypt")
+const mongoose  = require("mongoose")
 const validator = require("validator")
 const validateSignUpData = (req) => {
     const {firstName, lastName, password} = req.body
@@ -25,5 +26,11 @@ const validatePassword = async (req) => {
     return isCorrectPassword
 }
 
+const validateToUserId =  (id) => {
+    if (! mongoose.Types.ObjectId.isValid(id)){
+        throw new Error ("Invalid User Id!!!")
+    }
+}
 
-module.exports = {validateSignUpData, validateEditFeilds, validatePassword}
+
+module.exports = {validateSignUpData, validateEditFeilds, validatePassword, validateToUserId}

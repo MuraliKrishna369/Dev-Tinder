@@ -10,7 +10,7 @@
 - PATCH /profile/password/edit
 
 # Request Connection Router
-- POST /request/send/interst/:userId
+- POST /request/send/intersted/:userId
 - POST /request/send/ignore/:userId
 
 # User Router
