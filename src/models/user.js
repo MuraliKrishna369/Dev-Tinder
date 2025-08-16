@@ -15,6 +15,7 @@ const userSchema = new mongoose.Schema({
 
     },
     password: {type: String, required: true, unique: true},
+    about: {type: String, default: "this is default about you can update if u wish to"},
     age: {type: Number, min: 18},
     gender: {type: String, validate(v) { 
             if (!["male", "female", "other"].includes(v)){

@@ -1,3 +1,4 @@
+const bcrypt = require("bcrypt")
 const validator = require("validator")
 const validateSignUpData = (req) => {
     const {firstName, lastName, password} = req.body
@@ -10,5 +11,19 @@ const validateSignUpData = (req) => {
 
 }
 
+const validateEditFeilds = (req) => {
+    const allowedFeildsToUpdate = ["firstName", "lastName", "age", "gender", "skills", "about"]
+    const isAllowedToUpdate = Object.keys(req.body).every(key => allowedFeildsToUpdate.includes(key))
+    return isAllowedToUpdate
+}
 
-module.exports = {validateSignUpData}
+const validatePassword = async (req) => {
+    const {currentPassword} = req.body
+    const user = req.user
+    const storedPasswordInDB = user.password
+    const isCorrectPassword = await bcrypt.compare(currentPassword, storedPasswordInDB)
+    return isCorrectPassword
+}
+
+
+module.exports = {validateSignUpData, validateEditFeilds, validatePassword}
