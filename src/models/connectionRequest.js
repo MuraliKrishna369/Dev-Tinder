@@ -3,6 +3,7 @@ const mongoose = require("mongoose")
 const connectionRequestSchema = new mongoose.Schema({
     fromUserId: {
         type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
         require: true
     },
     toUserId: {
@@ -16,7 +17,7 @@ const connectionRequestSchema = new mongoose.Schema({
         message: `Invalid Status`
         
     }
-})
+}, {timestamps: true})
 
 connectionRequestSchema.pre("save", function (next) {
     const {fromUserId, toUserId} = this;

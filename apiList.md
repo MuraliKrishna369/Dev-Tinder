@@ -9,13 +9,11 @@
 - PATCH /profile/edit
 - PATCH /profile/password/edit
 
-# Request Connection Router
-- POST /request/send/intersted/:userId
-- POST /request/send/ignore/:userId
+# Connection Request Router
+- POST /request/send/:status/:toUserId
+- POST /request/review/:status/:requestId
 
 # User Router
-- GET /feed/all-users
-- GET /review/connection/accepted/:requestId
-- GET /review/connection/rejected/:requestId
-- GET /review/connection/pending/:requestId
-- GET /profile/view
+- GET /user/request/received
+- GET /user/connections
+- GET /user/feed
