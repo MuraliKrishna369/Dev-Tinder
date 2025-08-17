@@ -3,10 +3,7 @@ const { userAuth } = require("../middlewares/auth");
 const ConnectionRequest = require("../models/connectionRequest");
 const userRouter = express.Router();
 
-// fetch all the pending requests 
 userRouter.get("/user/request/received", userAuth, async (req, res) => {
-    // loggedInUser 
-    // fetch based on toUserId and must be intrested
     try{
         const loggedInUser = req.user
         const connectionRequestData = await ConnectionRequest.find({
@@ -24,6 +21,31 @@ userRouter.get("/user/request/received", userAuth, async (req, res) => {
     
 
 
+})
+
+
+userRouter.get("/user/connections", userAuth, async (req, res) => {
+    try{
+        const loggedInUser = req.user
+        const connections = await ConnectionRequest.find({
+            $or: [
+                {fromUserId: loggedInUser ,status: "accepted"},
+                {toUserId: loggedInUser ,status: "accepted"}
+            ]
+        }).populate("fromUserId", ["firstName", "lastName"])
+        .populate("toUserId", ["firstName", "lastName"])
+        const data = connections.map(row => {
+            if (row.fromUserId._id.toString() === loggedInUser._id.toString()){
+                return row.toUserId
+            }
+            return row.fromUserId
+        })
+        res.json(data)
+    }
+    catch (err) {
+        res.status(400).send("ERROR : "+ err.message)
+    }
+    
 })
 
 module.exports = userRouter
