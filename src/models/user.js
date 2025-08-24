@@ -15,7 +15,8 @@ const userSchema = new mongoose.Schema({
 
     },
     password: {type: String, required: true, unique: true},
-    about: {type: String, default: "this is default about you can update if u wish to"},
+    about: {type: String,  default: "this is default about you can update if u wish to"},
+    photoUrl: {type: String, default: "https://as2.ftcdn.net/jpg/00/64/67/63/1000_F_64676383_LdbmhiNM6Ypzb3FM4PPuFP9rHe7ri8Ju.jpg"},
     age: {type: Number, min: 18},
     gender: {type: String, validate(v) { 
             if (!["male", "female", "other"].includes(v)){

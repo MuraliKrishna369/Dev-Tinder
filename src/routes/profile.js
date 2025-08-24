@@ -9,15 +9,15 @@ profileRouter.get("/profile/view", userAuth,  (req, res) => {
    res.send(user)
 })
 
-profileRouter.patch("/profile/edit", userAuth, async (req, res) => {
+profileRouter.put("/profile/edit", userAuth, async (req, res) => {
    try{
       if(!validateEditFeilds(req)){
          throw new Error("Update feilds are mismatched!")
       }
       const user = req.user
       Object.keys(req.body).forEach(key => user[key] = req.body[key])
-      await user.save()
-      res.send("Profile updated successful")
+      const data = await user.save()
+      res.json(data)
       
    }
    catch (err) {

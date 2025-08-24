@@ -6,11 +6,11 @@ const bcrypt = require("bcrypt")
 
 authRouter.post("/signup", async (req, res) => {
     // create a instance of user using user model
-    const {firstName, lastName, emailId, password} = req.body
+    const {firstName, lastName, emailId, password, age, gender, photoUrl, skills, about} = req.body
     try{
         validateSignUpData(req)
         const passwordHash = await bcrypt.hash(password, 10)
-        const user = new User({firstName, lastName, emailId, password: passwordHash})
+        const user = new User({firstName, lastName, emailId, password: passwordHash,about,  age, gender, photoUrl, skills})
         await user.save()
         res.send("User created successfully")
     }
@@ -31,7 +31,7 @@ authRouter.post("/login",  async (req, res) => {
         if (isPasswordValid){
             const token = await user.getJWT()
             res.cookie("token", token, {expires: new Date(Date.now() + 1000 * 86400)})
-            res.json({message: "Login successful", user})
+            res.json(user)
         }
         else{
             throw new Error("Invalid creadintials")

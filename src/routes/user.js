@@ -4,14 +4,14 @@ const ConnectionRequest = require("../models/connectionRequest");
 const User = require("../models/user")
 const userRouter = express.Router();
 
-const USER_SAFE_DATA = "firstName lastName age gender skills"
+const USER_SAFE_DATA = "firstName lastName photoUrl age gender skills"
 
 userRouter.get("/user/request/received", userAuth, async (req, res) => {
     try{
         const loggedInUser = req.user
         const connectionRequestData = await ConnectionRequest.find({
             toUserId: loggedInUser, status: "intrested"
-        }).populate("fromUserId", ["firstName", "lastName"])
+        }).populate("fromUserId", USER_SAFE_DATA)
         if (!connectionRequestData.length > 0){
             res.status(400).json({message: "No request connections found"})
         }
@@ -35,8 +35,8 @@ userRouter.get("/user/connections", userAuth, async (req, res) => {
                 {fromUserId: loggedInUser ,status: "accepted"},
                 {toUserId: loggedInUser ,status: "accepted"}
             ]
-        }).populate("fromUserId", ["firstName", "lastName"])
-        .populate("toUserId", ["firstName", "lastName"])
+        }).populate("fromUserId", USER_SAFE_DATA)
+        .populate("toUserId", USER_SAFE_DATA)
         const data = connections.map(row => {
             if (row.fromUserId._id.toString() === loggedInUser._id.toString()){
                 return row.toUserId
