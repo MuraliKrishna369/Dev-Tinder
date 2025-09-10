@@ -3,7 +3,8 @@ const cors = require("cors")
 const connectDB  = require("./config/database");
 const cookieParser = require("cookie-parser")
 require("dotenv").config()
-
+const http = require('http')
+const intializeSocket = require("./utils/socket")
 const app = express()
 
 app.use(cors({
@@ -23,9 +24,12 @@ app.use("/", profileRouter)
 app.use("/", requestRouter)
 app.use("/", userRouter)
 
+const server = http.createServer(app)
+intializeSocket(server)
+
 connectDB()
 .then(() => {
     console.log("Database connected")
-    app.listen(7777, () => console.log("server is running on port 7777"))
+    server.listen(7777, () => console.log("server is running on port 7777"))
 })
 .catch((err) => console.log(err, "Database connection is failed"))
