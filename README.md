@@ -17,4 +17,7 @@ What i understand
 
 
 # Objectives
-1. create a server and initialize mongoose to perfrom crud operations
+1. the socket is emitted => it fires event in the backend
+2. we are giving room and back fire the event and send response in the frontend
+3. now we have to store the message in the db, when the event fires in the backend
+4. get the chat in the frontend , so we have to create one more route in the backend and it will fetch the data
