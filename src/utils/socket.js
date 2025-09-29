@@ -43,30 +43,30 @@ intializeSocket = (server) => {
             
         })
 
-        socket.on("sendStatus", async ({firstName, userId, targetUserId, status}) => {
-            const roomId = [userId, targetUserId].sort().join("_")
-            console.log(roomId)
-            console.log(firstName + " " + status)
-            try {
-                const userStatus = await UserStatus.findOne({userId})
-                if (!userStatus){
-                    const userStatus = new UserStatus({userId, status})
-                    await userStatus.save()
-                }
-                userStatus.status = status
-                await userStatus.save()
+        // socket.on("sendStatus", async ({firstName, userId, targetUserId, status}) => {
+        //     const roomId = [userId, targetUserId].sort().join("_")
+        //     console.log(roomId)
+        //     console.log(firstName + " " + status)
+        //     try {
+        //         const userStatus = await UserStatus.findOne({userId})
+        //         if (!userStatus){
+        //             const userStatus = new UserStatus({userId, status})
+        //             await userStatus.save()
+        //         }
+        //         userStatus.status = status
+        //         await userStatus.save()
 
-                const targetUserStatus = await UserStatus.findOne({userId: targetUserId})
-                io.to(roomId).emit("receiveStatus", {targetUserStatus})
+        //         const targetUserStatus = await UserStatus.findOne({userId: targetUserId})
+        //         io.to(roomId).emit("receiveStatus", {targetUserStatus})
                 
                 
 
-            } catch (error) {
-                console.log(error)
-            }
+        //     } catch (error) {
+        //         console.log(error)
+        //     }
             
                     
-        })          
+        // })          
     
        
         socket.on("disconnect", () => {})
