@@ -21,3 +21,30 @@ What i understand
 2. we are giving room and back fire the event and send response in the frontend
 3. now we have to store the message in the db, when the event fires in the backend
 4. get the chat in the frontend , so we have to create one more route in the backend and it will fetch the data
+5. pagination chat
+6. clear
+7. show him online status, and last seen
+
+
+
+
+- show last seen or online in the frontend of targetUser
+- and show only when your in room/opened chat
+- who will give the last seen or online status?
+- bascically there is one server but multiple clients can use our backend server
+- and also there is one frontend server but multiple clients can use frontend server
+- the thing is we have just one frontend server and one backend server
+- so whatever code you have written applicable for all users.
+- now i want to know target user online or not. and if is not online show him his last seen
+- shall we use sockets
+- how sockets work?
+- your installing socket.io-client in frontend
+- configure using your base url and in your frontend your emiting the event => socket.emit()
+- so the event is fired in the backend server => socket.io 
+- and also the event can fire in frontend as well using event listener => socket.on
+- how will you know other person is online or his/him lastseen?
+- first of all you should post your online status or lastseen
+- so other person can see he is also in the same room
+
+
+
