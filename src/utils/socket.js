@@ -7,11 +7,8 @@ const UserStatus = require("../models/status");
 intializeSocket = (server) => {
     const io = socket(server, {
         cors : {
-           origin: [
-                        "http://localhost:5173",      // for local dev
-                        "http://43.205.114.145",      // your EC2 IP
-                        "http://techmates.online"     // bind a domain
-                    ],
+           origin: "https://techmates.online"     // bind a domain
+                    
         }
     })
     io.on("connection", (socket) => {
