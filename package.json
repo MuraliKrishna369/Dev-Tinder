@@ -2,7 +2,7 @@
   "name": "devtender",
   "version": "1.0.0",
   "description": "tender for dev",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "start": "node src/app.js",
     "dev": "nodemon src/app.js"
